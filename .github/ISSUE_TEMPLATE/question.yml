@@ -1,0 +1,46 @@
+name: Question
+description: Ask a question about using or developing the project
+title: "[QUESTION]: "
+labels: ["question"]
+
+body:
+  - type: input
+    id: question
+    attributes:
+      label: Question
+      description: Clearly state your question.
+      placeholder: What do you want to know?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Related Area
+      options:
+        - CLI
+        - API
+        - Dashboard
+        - Configuration
+        - CI / Release
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What are you trying to achieve?
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: tried
+    attributes:
+      label: What have you tried?
+      options:
+        - label: Read the documentation
+        - label: Searched existing issues
+        - label: Tried locally

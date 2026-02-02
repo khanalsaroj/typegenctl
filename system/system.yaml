@@ -1,0 +1,20 @@
+services:
+  frontend:
+    image:
+      name: ghcr.io/khanalsaroj/typegen-ui
+      tag: latest
+    container_name: typegen-frontend
+    port:
+      host: 7359
+      container: 3000
+    enabled: true
+
+  backend:
+    image:
+      name: ghcr.io/khanalsaroj/typegen-server
+      tag: latest
+    container_name: typegen-backend
+    port:
+      host: 8049
+      container: 80
+    enabled: true
