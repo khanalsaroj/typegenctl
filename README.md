@@ -166,10 +166,30 @@ flowchart LR
 
 ## ⚙️ Installation
 
-#### Via install script (requires curl)
+### 🐧 Linux  (via install script – requires `curl`)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/khanalsaroj/typegenctl/refs/heads/main/main/install.sh | bash
+```
+
+### 🪟 Windows (PowerShell installer)
+
+Open **PowerShell as Administrator**:
+
+```powershell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+```powershell
+iwr -useb https://raw.githubusercontent.com/khanalsaroj/typegenctl/main/install.ps1 | iex
+```
+
+> ***Restart your terminal after installation.***
+
+### Verify Installation
+
+```bash
+typegenctl --version
 ```
 
 Or download a prebuilt binary for your platform from the [Releases](https://github.com/khanalsaroj/typegenctl/releases)
