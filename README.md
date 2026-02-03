@@ -181,7 +181,7 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
 ```powershell
-iwr -useb https://raw.githubusercontent.com/khanalsaroj/typegenctl/main/install.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/khanalsaroj/typegenctl/refs/heads/main/main/install.ps1 | iex
 ```
 
 > ***Restart your terminal after installation.***
