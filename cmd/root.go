@@ -2,6 +2,9 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
+	"runtime"
 
 	"github.com/sarojkhanal/typegenctl/internal/app"
 	"github.com/sarojkhanal/typegenctl/internal/version"
@@ -37,7 +40,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(
 		&opts.ConfigPath,
 		"config",
-		"/opt/typegen/config/typegen.yaml",
+		defaultConfigPath(),
 		"Path to system configuration file",
 	)
 
@@ -62,4 +65,13 @@ func init() {
 		false,
 		"Print version information",
 	)
+}
+
+func defaultConfigPath() string {
+	switch runtime.GOOS {
+	case "windows":
+		return filepath.Join(os.Getenv("ProgramData"), "typegen", "config", "typegen.yaml")
+	default:
+		return "/opt/typegen/config/typegen.yaml"
+	}
 }

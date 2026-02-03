@@ -1,4 +1,4 @@
-# Typegenctl
+# Type Generator
 
 <p align="center">
   <img src="docs/assets/image.jpg" width="100" height="100" alt="TypeGen Logo" />
@@ -15,6 +15,166 @@
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   <img src="https://img.shields.io/badge/status-production--ready-success" />
 </p>
+
+---
+
+## 💼 Introduction
+
+**TypeGenerator** is an open-source **type generator** and **code generation platform** for generating, managing, and
+synchronizing types across APIs, backend services, and frontend applications.
+
+In modern systems, inconsistent schemas and manually maintained models often lead to runtime errors and slow
+development. TypeGenerator solves this by acting as a **centralized type generator** with a single source of truth for
+schema-driven type generation.
+
+The platform consists of three core parts:
+
+* **Typegenctl (CLI)** — controls type generation, configuration, and lifecycle
+* **TypeGenerator Server (API)** — validates schemas and orchestrates generation workflows
+* **TypeGenerator UI (Dashboard)** — manages schemas and provides system visibility
+
+TypeGenerator supports **schema-based**, **CLI-first**, and **API-driven** workflows, making it suitable for monoliths,
+microservices, and hybrid architectures. It is built as a **production-grade, full-stack type generator** with a strong
+focus on developer experience, determinism, and operational safety.
+
+### Key Features
+
+* Centralized **type generator** for backend and frontend systems
+* Deterministic and repeatable **code generation**
+* CLI-driven and API-driven workflows
+* Web dashboard for visibility and configuration
+* Designed for long-term maintainability and extensibility
+
+---
+
+## ⚙️ Installation
+
+### 🐧 Linux  (requires `curl`)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/khanalsaroj/typegenctl/refs/heads/main/main/install.sh | bash
+```
+
+### 🪟 Windows (PowerShell installer)
+
+Open **PowerShell as Administrator**:
+
+```powershell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+```powershell
+iwr -useb https://raw.githubusercontent.com/khanalsaroj/typegenctl/refs/heads/main/main/install.ps1 | iex
+```
+
+> ***Restart your terminal after installation.***
+
+### Verify Installation
+
+```bash
+typegenctl --version
+```
+
+Or download a prebuilt binary for your platform from the [Releases](https://github.com/khanalsaroj/typegenctl/releases)
+page.
+
+---
+
+## 🚀 Getting Started
+
+```bash
+typegenctl init                 # Generate default configuration (typegen.yaml)
+typegenctl pull                 # Pull required Docker images
+typegenctl run                  # Start the Typegen service stack
+typegenctl status               # Check health and status of services
+typegenctl dashboard            # Open the dashboard in your default browser
+```
+
+---
+
+### ▶️ Commands
+
+| Command       | Description                                                           |
+|:--------------|:----------------------------------------------------------------------|
+| `init`        | Bootstrap the environment and generate `typegen.yaml`.                |
+| `check`       | Validate configuration, host prerequisites, and Docker availability.  |
+| `pull`        | Fetch and verify required Docker images.                              |
+| `run`         | Start the Typegen services (creates and starts containers).           |
+| `start`       | Start existing (but stopped) Typegen containers.                      |
+| `stop`        | Gracefully stop running containers without removing them.             |
+| `restart`     | Restart service containers.                                           |
+| `status`      | Inspect and report the current runtime state.                         |
+| `update`      | Pull the latest images for the services.                              |
+| `cleanup`     | Remove obsolete Docker images and stopped containers.                 |
+| `self-update` | Update the typegenctl CLI to the latest released version from GitHub. |
+| `dashboard`   | Open the Typegen user interface (UI) in the browser.                  |
+
+---
+
+### ▶️ Global & Common Flags
+
+Available for most commands:
+
+| Flag                      | Description                                               |
+|:--------------------------|:----------------------------------------------------------|
+| `--config <path/to/file>` | Full path to the `typegen.yaml` file, including its name. |
+| `--json`                  | Output results in JSON format.                            |
+| `--dry-run`               | Show planned actions without executing them.              |
+| `--version`, `-v`         | Print version information.                                |
+
+**Service Selection Flags** (Available for `init`):
+
+| Flag                      | Description                                                                                   |
+|:--------------------------|:----------------------------------------------------------------------------------------------|
+| `--frontend <port>`       | Set the frontend service port (default: 3000).                                                |
+| `--backend <port>`        | Set the backend service port (default: 8080).                                                 |
+| `--force`                 | Overwrite existing `typegen.yaml` if it exists.                                               |
+| `--config <path/to/file>` | Full path to the `typegen.yaml` file, including its name file will be created or overwritten. |
+
+**Service Selection Flags** (Available for `self-update`):
+
+| Flag      | Description                                      |
+|:----------|:-------------------------------------------------|
+| `--check` | Check for available updates without installing.  |
+| `--force` | Reinstall even if already on the latest version. |
+
+**Service Selection Flags** (Available for `run`, `stop`, `start`, `restart`, `pull`, `status`, `update`, `cleanup`,
+`check`):
+
+| Flag         | Description                                 |
+|:-------------|:--------------------------------------------|
+| `--frontend` | Apply command to the frontend service only. |
+| `--backend`  | Apply command to the backend service only.. |
+
+---
+
+## 🔧 Configuration
+
+The CLI uses a `typegen.yaml` file for configuration. By default, it looks for this file in the path specified during
+`init` (defaulting to the local directory or internal path).
+
+```yaml
+services:
+  frontend:
+    image:
+      name: ghcr.io/khanalsaroj/typegen-ui
+      tag: latest
+    container_name: Frontend
+    port:
+      host: 7359
+      container: 80
+    enabled: true
+
+  backend:
+    image:
+      name: ghcr.io/khanalsaroj/typegen-server
+      tag: latest
+    container_name: Backend
+    port:
+      host: 8049
+      container: 8080
+    enabled: true
+```
 
 ---
 
@@ -46,7 +206,7 @@ The core execution engine.
 * Exposes deterministic APIs for automation
 * Designed to be stateless and horizontally scalable
 
-📖 **Documentation:** [Typegen Server README](https://github.com/khanalsaroj/typegen-server?tab=readme-ov-file)
+📖 **Documentation:** [Typegen Server](https://github.com/khanalsaroj/typegen-server?tab=readme-ov-file)
 
 ### 3. Typegen UI
 
@@ -57,7 +217,8 @@ The user interface layer.
 * Developer‑friendly workflows
 * Connects exclusively through the Typegen API
 
-📖 **Documentation:** [Typegen UI README](https://github.com/khanalsaroj/typegen-ui?tab=readme-ov-file)
+📖 **Documentation:** [Typegen UI](https://github.com/khanalsaroj/typegen-ui?tab=readme-ov-file)
+
 
 ---
 
@@ -164,122 +325,11 @@ flowchart LR
 
 ---
 
-## ⚙️ Installation
-
-#### Via install script (requires curl)
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/khanalsaroj/typegenctl/refs/heads/main/main/install.sh | bash
-```
-
-Or download a prebuilt binary for your platform from the [Releases](https://github.com/khanalsaroj/typegenctl/releases)
-page.
-
----
-
-## 🚀 Getting Started
-
-```bash
-typegenctl init                 # Generate default configuration (typegen.yaml)
-typegenctl pull                 # Pull required Docker images
-typegenctl run                  # Start the Typegen service stack
-typegenctl status               # Check health and status of services
-typegenctl dashboard            # Open the dashboard in your default browser
-```
-
----
-
-## 🔧 Configuration
-
-The CLI uses a `typegen.yaml` file for configuration. By default, it looks for this file in the path specified during
-`init` (defaulting to the local directory or internal path).
-
-```yaml
-services:
-  frontend:
-    image:
-      name: ghcr.io/khanalsaroj/typegen-ui
-      tag: latest
-    container_name: Frontend
-    port:
-      host: 7359
-      container: 80
-    enabled: true
-
-  backend:
-    image:
-      name: ghcr.io/khanalsaroj/typegen-server
-      tag: latest
-    container_name: Backend
-    port:
-      host: 8049
-      container: 8080
-    enabled: true
-```
-
----
-
-### ▶️ Commands
-
-| Command       | Description                                                           |
-|:--------------|:----------------------------------------------------------------------|
-| `init`        | Bootstrap the environment and generate `typegen.yaml`.                |
-| `check`       | Validate configuration, host prerequisites, and Docker availability.  |
-| `pull`        | Fetch and verify required Docker images.                              |
-| `run`         | Start the Typegen services (creates and starts containers).           |
-| `start`       | Start existing (but stopped) Typegen containers.                      |
-| `stop`        | Gracefully stop running containers without removing them.             |
-| `restart`     | Restart service containers.                                           |
-| `status`      | Inspect and report the current runtime state.                         |
-| `update`      | Pull the latest images for the services.                              |
-| `cleanup`     | Remove obsolete Docker images and stopped containers.                 |
-| `self-update` | Update the typegenctl CLI to the latest released version from GitHub. |
-| `dashboard`   | Open the Typegen user interface (UI) in the browser.                  |
-
----
-
-### ▶️ Global & Common Flags
-
-Available for most commands:
-
-| Flag                      | Description                                               |
-|:--------------------------|:----------------------------------------------------------|
-| `--config <path/to/file>` | Full path to the `typegen.yaml` file, including its name. |
-| `--json`                  | Output results in JSON format.                            |
-| `--dry-run`               | Show planned actions without executing them.              |
-| `--version`, `-v`         | Print version information.                                |
-
-**Service Selection Flags** (Available for `init`):
-
-| Flag                      | Description                                                                                   |
-|:--------------------------|:----------------------------------------------------------------------------------------------|
-| `--frontend <port>`       | Set the frontend service port (default: 3000).                                                |
-| `--backend <port>`        | Set the backend service port (default: 8080).                                                 |
-| `--force`                 | Overwrite existing `typegen.yaml` if it exists.                                               |
-| `--config <path/to/file>` | Full path to the `typegen.yaml` file, including its name file will be created or overwritten. |
-
-**Service Selection Flags** (Available for `self-update`):
-
-| Flag      | Description                                      |
-|:----------|:-------------------------------------------------|
-| `--check` | Check for available updates without installing.  |
-| `--force` | Reinstall even if already on the latest version. |
-
-**Service Selection Flags** (Available for `run`, `stop`, `start`, `restart`, `pull`, `status`, `update`, `cleanup`,
-`check`):
-
-| Flag         | Description                                 |
-|:-------------|:--------------------------------------------|
-| `--frontend` | Apply command to the frontend service only. |
-| `--backend`  | Apply command to the backend service only.. |
-
----
-
 ## ♻️ Planned Enhancements
 
 ### 1. Platform & Language Support
 
-* **Additional database connections**: Oracle, Microsoft SQL Server, SQLite, and MongoDB (NoSQL)
+* **Additional database connections**: Oracle, SQLite, and MongoDB (NoSQL)
 * **Additional target languages**: Kotlin, Python, C#, and Go
 
 ### 2. DTO / Type Generation
@@ -320,6 +370,13 @@ Available for most commands:
 >
 > After four years of writing Java, I decided to step outside looking for something new.
 > This project was built in Go, with zero prior experience and a healthy amount of confusion.
+>
+> Could this be docker-compose? Yes, this could have been a simple docker-compose setup.
+>
+> I intentionally chose to build a full CLI instead to deeply learn CLI design, service orchestration, and developer
+> tooling.
+>
+> Did I do it the hard way to learn CLI design? Also yes.
 >
 > Would I do it again? Maybe. Probably.
 >

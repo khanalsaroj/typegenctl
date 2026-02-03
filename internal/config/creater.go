@@ -1,7 +1,9 @@
 package config
 
 import (
+	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/sarojkhanal/typegenctl/internal/domain"
 
@@ -9,8 +11,17 @@ import (
 )
 
 func Write(path string, cfg *domain.Config) error {
+	if path == "" {
+		return fmt.Errorf("config path is empty")
+	}
+
 	data, err := yaml.Marshal(cfg)
 	if err != nil {
+		return err
+	}
+
+	dir := filepath.Dir(path)
+	if err := os.MkdirAll(dir, 0755); err != nil {
 		return err
 	}
 
