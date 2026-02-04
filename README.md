@@ -37,7 +37,7 @@ TypeGenerator supports **schema-based**, **CLI-first**, and **API-driven** workf
 microservices, and hybrid architectures. It is built as a **production-grade, full-stack type generator** with a strong
 focus on developer experience, determinism, and operational safety.
 
-### 🎥 ## 🎥 Installation & Usage Demo
+### 🎥 Installation & Usage Demo
 <p align="center">
   <img src="docs/assets/demo.gif" width="100%" alt="TypeGenerator UI demo showing schema import and type generation workflow" />
 </p>
