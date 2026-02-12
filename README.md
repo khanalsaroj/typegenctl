@@ -343,7 +343,7 @@ flowchart LR
 ### 1. Platform & Language Support
 
 * **Additional database connections**: Oracle, SQLite, and MongoDB (NoSQL)
-* **Additional target languages**: Kotlin, Python, C#, and Go
+* **Additional target languages**: Kotlin, Python, and Go
 
 ### 2. DTO / Type Generation
 
