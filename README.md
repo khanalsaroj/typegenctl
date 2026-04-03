@@ -381,16 +381,6 @@ flowchart LR
 
 > Typegen — no need to expose your entire database schema to LLMs..
 >
-> After four years of writing Java, I decided to step outside looking for something new.
-> This project was built in Go, with zero prior experience and a healthy amount of confusion.
->
 > Could this be docker-compose? Yes, this could have been a simple docker-compose setup.
->
-> I intentionally chose to build a full CLI instead to deeply learn CLI design, service orchestration, and developer
-> tooling.
->
-> Did I do it the hard way to learn CLI design? Also yes.
->
-> Would I do it again? Maybe. Probably.
 >
 > Thanks, Caffeine and LLMs. It is what it is.
