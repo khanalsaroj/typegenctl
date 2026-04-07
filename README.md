@@ -379,7 +379,7 @@ flowchart LR
 
 ## 📝 Personal Note
 
-> Typegen — no need to expose your entire database schema to LLMs..
+> Typegen — The philosophy: database as the single source of truth.
 >
 > Could this be docker-compose? Yes, this could have been a simple docker-compose setup.
 >
