@@ -37,6 +37,13 @@ TypeGenerator supports **schema-based**, **CLI-first**, and **API-driven** workf
 microservices, and hybrid architectures. It is built as a **production-grade, full-stack type generator** with a strong
 focus on developer experience, determinism, and operational safety.
 
+> **💡 Don't want to install `typegenctl`?**  
+> You can skip the CLI installation entirely and use the provided [`docker-compose.yml`](docker-compose.yml) directly:
+> ```bash
+> docker-compose up -d
+> ```
+> The CLI is designed to make the workflow easier and more streamlined, but it is not required — running Docker Compose in detached mode gives you the same core platform.
+
 ### 🎥 Installation & Usage Demo
 <p align="center">
   <img src="docs/assets/demo.gif" width="100%" alt="TypeGenerator UI demo showing schema import and type generation workflow" />
