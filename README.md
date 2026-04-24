@@ -387,7 +387,3 @@ flowchart LR
 ## 📝 Personal Note
 
 > Typegen — The philosophy: database as the single source of truth.
->
-> Could this be docker-compose? Yes, this could have been a simple docker-compose setup.
->
-> Thanks, Caffeine and LLMs. It is what it is.
