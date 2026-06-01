@@ -3,7 +3,6 @@ package app
 type Options struct {
 	// Configuration
 	ConfigPath string
-	ConfigName string
 
 	// Output & execution modes
 	JSONOutput bool

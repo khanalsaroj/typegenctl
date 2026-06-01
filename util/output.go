@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/sarojkhanal/typegenctl/internal/result"
+	"github.com/khanalsaroj/typegenctl/internal/result"
 )
 
 func PrintJSON(v any) error {

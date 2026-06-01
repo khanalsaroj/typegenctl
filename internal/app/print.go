@@ -3,8 +3,8 @@ package app
 import (
 	"fmt"
 
-	"github.com/sarojkhanal/typegenctl/internal/result"
-	"github.com/sarojkhanal/typegenctl/util"
+	"github.com/khanalsaroj/typegenctl/internal/result"
+	"github.com/khanalsaroj/typegenctl/util"
 )
 
 func RenderAndExit(r *result.ValidationResult, opts *Options) error {

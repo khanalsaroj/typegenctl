@@ -1,6 +1,6 @@
 package main
 
-import "github.com/sarojkhanal/typegenctl/cmd"
+import "github.com/khanalsaroj/typegenctl/cmd"
 
 func main() {
 	if cmd.Execute() != nil {

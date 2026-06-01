@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/sarojkhanal/typegenctl/internal/app"
-	"github.com/sarojkhanal/typegenctl/internal/browser"
-	"github.com/sarojkhanal/typegenctl/internal/config"
-	"github.com/sarojkhanal/typegenctl/internal/result"
+	"github.com/khanalsaroj/typegenctl/internal/app"
+	"github.com/khanalsaroj/typegenctl/internal/browser"
+	"github.com/khanalsaroj/typegenctl/internal/config"
+	"github.com/khanalsaroj/typegenctl/internal/result"
 )
 
 func Dashboard(opts *app.Options) error {

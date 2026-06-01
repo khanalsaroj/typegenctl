@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/sarojkhanal/typegenctl/internal/app/usecase"
+	"github.com/khanalsaroj/typegenctl/internal/app/usecase"
 	"github.com/spf13/cobra"
 )
 

@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/sarojkhanal/typegenctl/internal/app"
-	"github.com/sarojkhanal/typegenctl/internal/version"
+	"github.com/khanalsaroj/typegenctl/internal/app"
+	"github.com/khanalsaroj/typegenctl/internal/version"
 	"github.com/spf13/cobra"
 )
 
