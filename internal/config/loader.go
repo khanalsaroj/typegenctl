@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/sarojkhanal/typegenctl/internal/domain"
+	"github.com/khanalsaroj/typegenctl/internal/domain"
 	"gopkg.in/yaml.v3"
 )
 
@@ -24,17 +24,20 @@ func Load(path string) (*domain.Config, error) {
 
 	var cfg domain.Config
 	if err := yaml.Unmarshal(data, &cfg); err != nil {
-		return nil, domain.InvalidConfig
+		return nil, fmt.Errorf("%w: %v", domain.InvalidConfig, err)
 	}
 
-	if err := Validate(cfg); err != nil {
-		return nil, domain.InvalidConfig
+	if err := Validate(&cfg); err != nil {
+		return nil, fmt.Errorf("%w: %v", domain.InvalidConfig, err)
 	}
 
 	return &cfg, nil
 }
 
-func Validate(c domain.Config) error {
+// Validate checks the configuration for correctness and normalizes optional
+// fields (e.g. defaulting an empty image tag to "latest"). It mutates cfg in
+// place, so callers must pass a pointer for the defaults to take effect.
+func Validate(c *domain.Config) error {
 	if c.Services.Frontend.Port.Host <= 0 || c.Services.Frontend.Port.Host > 65535 {
 		return errors.New("frontend port is invalid or missing")
 	}
@@ -44,7 +47,7 @@ func Validate(c domain.Config) error {
 	}
 
 	if c.Services.Backend.Image.Name == "" {
-		return errors.New("backend image  is required")
+		return errors.New("backend image is required")
 	}
 
 	if c.Services.Frontend.Image.Name == "" {
@@ -52,13 +55,11 @@ func Validate(c domain.Config) error {
 	}
 
 	if c.Services.Frontend.Image.Tag == "" {
-		fmt.Println("frontend image tag is missing, using latest")
 		c.Services.Frontend.Image.Tag = "latest"
 	}
 
 	if c.Services.Backend.Image.Tag == "" {
-		fmt.Println("backend image tag is missing, using latest")
-		c.Services.Frontend.Image.Tag = "latest"
+		c.Services.Backend.Image.Tag = "latest"
 	}
 
 	return nil

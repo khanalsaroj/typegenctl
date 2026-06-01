@@ -72,10 +72,7 @@ func isPortAvailable(port int) (bool, error) {
 		return false, err
 	}
 
-	defer func(ln net.Listener) {
-		if ln.Close() != nil {
-		}
-	}(ln)
+	defer func() { _ = ln.Close() }()
 	return true, nil
 }
 

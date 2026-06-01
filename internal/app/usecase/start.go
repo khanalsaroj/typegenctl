@@ -4,11 +4,11 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/sarojkhanal/typegenctl/internal/app"
+	"github.com/khanalsaroj/typegenctl/internal/app"
 
-	"github.com/sarojkhanal/typegenctl/internal/config"
-	"github.com/sarojkhanal/typegenctl/internal/docker"
-	"github.com/sarojkhanal/typegenctl/internal/result"
+	"github.com/khanalsaroj/typegenctl/internal/config"
+	"github.com/khanalsaroj/typegenctl/internal/docker"
+	"github.com/khanalsaroj/typegenctl/internal/result"
 )
 
 func Start(opts *app.Options) error {

@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/sarojkhanal/typegenctl/internal/app/usecase"
+	"github.com/khanalsaroj/typegenctl/internal/app/usecase"
 	"github.com/spf13/cobra"
 )
 
@@ -10,8 +10,10 @@ var selfUpdateCmd = &cobra.Command{
 	Short: "Update typegenctl to the latest version",
 	Long: `Update the typegenctl CLI to the latest released version from GitHub.
 
-This command downloads and installs the newest version of typegenctl.
-It requires sudo privileges to replace the existing binary in /usr/local/bin.
+This command downloads the release archive for your platform, verifies it
+against the published SHA-256 checksums, and then replaces the running binary
+in place. If the binary lives in a protected directory (e.g. /usr/local/bin on
+Linux/macOS), re-run with elevated privileges (sudo).
 
 Examples:
   typegenctl self-update

@@ -3,6 +3,7 @@ package docker
 import (
 	"bufio"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -49,7 +50,7 @@ func renderSingleProgressBar(reader io.Reader) error {
 		}
 
 		if ev.Error != "" {
-			return fmt.Errorf(ev.Error)
+			return errors.New(ev.Error)
 		}
 
 		if ev.ID == "" || ev.ProgressDetail.Total == 0 {

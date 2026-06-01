@@ -11,6 +11,20 @@ import (
 	"github.com/docker/docker/api/types/network"
 	"github.com/docker/docker/client"
 	"github.com/docker/go-connections/nat"
+
+	"github.com/khanalsaroj/typegenctl/internal/domain"
+)
+
+const (
+	// defaultNetworkName is the bridge network all TypeGen containers join so
+	// the frontend can reach the backend by container name.
+	defaultNetworkName = "bridge-net"
+	// backendDataTarget is the in-container mount point for the backend volume.
+	backendDataTarget = "/app/data"
+	// envAppEnv is injected into the backend container.
+	envAppEnv = "APP_ENV=production"
+	// envAPIUpstreamKey tells the frontend which container to proxy /api to.
+	envAPIUpstreamKey = "API_UPSTREAM"
 )
 
 func (c *Client) ensureContainer(
@@ -21,7 +35,7 @@ func (c *Client) ensureContainer(
 	backendProxy string,
 	serviceType string,
 ) error {
-	networkName := "bridge-net"
+	networkName := defaultNetworkName
 
 	if err := ensureNetwork(c.Cli, c.ctx, networkName); err != nil {
 		return err
@@ -36,22 +50,22 @@ func (c *Client) ensureContainer(
 
 	var env []string
 	switch serviceType {
-	case "backend":
-		env = append(env, "APP_ENV=production")
-	case "frontend":
+	case domain.Backend:
+		env = append(env, envAppEnv)
+	case domain.Frontend:
 		if backendProxy != "" {
-			env = append(env, "API_UPSTREAM="+backendProxy)
+			env = append(env, envAPIUpstreamKey+"="+backendProxy)
 		}
 	default:
 		return fmt.Errorf("unknown serviceType: %s", serviceType)
 	}
 
 	var mounts []mount.Mount
-	if serviceType == "backend" {
+	if serviceType == domain.Backend {
 		mounts = append(mounts, mount.Mount{
 			Type:   mount.TypeVolume,
 			Source: name,
-			Target: "/app/data",
+			Target: backendDataTarget,
 		})
 	}
 

@@ -3,11 +3,11 @@ package usecase
 import (
 	"errors"
 	"fmt"
-	"github.com/sarojkhanal/typegenctl/internal/app"
-	"github.com/sarojkhanal/typegenctl/internal/domain"
+	"github.com/khanalsaroj/typegenctl/internal/app"
+	"github.com/khanalsaroj/typegenctl/internal/domain"
 
-	"github.com/sarojkhanal/typegenctl/internal/config"
-	"github.com/sarojkhanal/typegenctl/internal/result"
+	"github.com/khanalsaroj/typegenctl/internal/config"
+	"github.com/khanalsaroj/typegenctl/internal/result"
 )
 
 func Initialization(opts *app.Options) error {

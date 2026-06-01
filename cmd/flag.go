@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/sarojkhanal/typegenctl/internal/domain"
+	"github.com/khanalsaroj/typegenctl/internal/domain"
 	"github.com/spf13/cobra"
 )
 

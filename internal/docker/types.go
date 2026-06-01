@@ -2,7 +2,7 @@ package docker
 
 import (
 	"errors"
-	"github.com/sarojkhanal/typegenctl/internal/domain"
+	"github.com/khanalsaroj/typegenctl/internal/domain"
 	"time"
 )
 

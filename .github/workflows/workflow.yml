@@ -10,23 +10,55 @@ on:
       - .gitignore
       - main/install.sh
 
+permissions:
+  contents: read
+
 jobs:
+  # Quality gate: the release job below only runs if this passes.
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Check formatting
+        run: |
+          unformatted=$(gofmt -l .)
+          if [ -n "$unformatted" ]; then
+            echo "The following files are not gofmt-formatted:"
+            echo "$unformatted"
+            exit 1
+          fi
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Test
+        run: go test -race -cover ./...
+
   release:
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       contents: write
 
     steps:
       # 1. Checkout code
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # 2. Setup Go
+      # 2. Setup Go (version pinned to go.mod to avoid drift)
       - name: Setup Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
-          go-version: '1.21'
+          go-version-file: go.mod
+          cache: true
 
       # 3. Analyze last commit to determine version bump
       - name: Get commit message
@@ -94,7 +126,7 @@ jobs:
               local archive_name="${CTL_NAME}-${target}.zip"
 
               GOOS=$os GOARCH=$arch go build \
-                -ldflags "-X github.com/sarojkhanal/typegenctl/internal/version.Version=$VERSION" \
+                -ldflags "-X github.com/khanalsaroj/typegenctl/internal/version.Version=$VERSION" \
                 -o "dist/$binary_name" \
                 ./
 
@@ -104,7 +136,7 @@ jobs:
               local archive_name="${CTL_NAME}-${target}.tar.gz"
 
               GOOS=$os GOARCH=$arch go build \
-                -ldflags "-X github.com/sarojkhanal/typegenctl/internal/version.Version=$VERSION" \
+                -ldflags "-X github.com/khanalsaroj/typegenctl/internal/version.Version=$VERSION" \
                 -o "dist/$binary_name" \
                 ./
 
@@ -160,7 +192,7 @@ jobs:
           mkdir -p docs
           echo "# Release $VERSION" > "$NOTES"
           echo "" >> "$NOTES"
-      
+
           # Helper function to add a section if it has content
           add_section() {
             local title="$1"
@@ -171,19 +203,19 @@ jobs:
             else
               result=$(git log "$PREV_TAG..HEAD" --pretty=format:"- %s" | grep -E "$pattern" || echo "")
             fi
-      
+
             if [ ! -z "$result" ]; then
               echo "## $title" >> "$NOTES"
               echo "$result" >> "$NOTES"
               echo "" >> "$NOTES"
             fi
           }
-      
+
           # Sections
           add_section "🚨 Breaking Changes" "!:|BREAKING CHANGE"
           add_section "✨ Features" "^feat"
           add_section "🐛 Bug Fixes" "^fix"
-      
+
           # Minor Changes (catch-all for everything else)
           if [ -z "$PREV_TAG" ]; then
             MINOR=$(git log --pretty=format:"- %s" | grep -Ev "^(feat|fix)|!:|BREAKING CHANGE" || echo "")
@@ -195,28 +227,18 @@ jobs:
             echo "$MINOR" >> "$NOTES"
             echo "" >> "$NOTES"
           fi
-      
+
           echo "Release notes generated at $NOTES"
 
-      # 10. Create GitHub release
+      # 10. Create GitHub release and upload all assets
       - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.version }}
-          release_name: Release ${{ steps.version.outputs.version }}
+          name: Release ${{ steps.version.outputs.version }}
           body_path: docs/RELEASE_NOTES.md
           draft: false
           prerelease: false
+          files: dist/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # 11. Upload all binaries to the release
-      - name: Upload release assets
-        run: |
-          for file in dist/*; do
-            echo "Uploading $file..."
-            gh release upload ${{ steps.version.outputs.version }} "$file" --clobber
-          done
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

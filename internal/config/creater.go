@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/sarojkhanal/typegenctl/internal/domain"
+	"github.com/khanalsaroj/typegenctl/internal/domain"
 
 	"gopkg.in/yaml.v3"
 )

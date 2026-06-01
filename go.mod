@@ -1,4 +1,4 @@
-module github.com/sarojkhanal/typegenctl
+module github.com/khanalsaroj/typegenctl
 
 go 1.25.6
 
